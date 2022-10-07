@@ -1,0 +1,53 @@
+
+Query 1 for Customer 6 Genre's:
+
+SELECT DISTINCT Genre.Name,
+  	COUNT(Track.Name)
+  FROM Customer
+  JOIN Invoice ON Invoice.CustomerId = Customer.CustomerId
+  JOIN InvoiceLine ON InvoiceLine.InvoiceId = Invoice.InvoiceId
+  JOIN Track ON Track.TrackId = InvoiceLine.TrackId
+  JOIN Genre ON Genre.GenreId = Track.GenreId
+  WHERE Customer.CustomerId = 6
+  GROUP BY 1
+  ORDER BY 1
+
+
+Query 2 for Songs Per Genre in the database:
+
+
+ SELECT Genre.Name,
+  	COUNT(Track.TrackId)
+  FROM Track
+  JOIN Genre ON Track.GenreId = Genre.GenreId
+  GROUP BY 1
+  ORDER BY 2 DESC
+
+Query 3 for Profit for each Genre:
+
+
+SELECT Genre.Name,
+  SUM(InvoiceLine.UnitPrice*InvoiceLine.Quantity)
+FROM Customer
+JOIN Invoice ON Invoice.CustomerId = Customer.CustomerId
+JOIN InvoiceLine ON InvoiceLine.InvoiceId = Invoice.InvoiceId
+JOIN Track ON Track.TrackId = InvoiceLine.TrackId
+JOIN Genre ON Genre.GenreId = Track.GenreId
+GROUP BY 1
+ORDER BY 2 DESC
+
+
+
+
+Query 4 for Blues Songs Writers:
+
+
+ SELECT Artist.Name,
+  	COUNT(Track.Name)
+  FROM Track 
+  JOIN Genre ON Track.GenreId = Genre.GenreId
+  JOIN Album ON Album.AlbumId = Track.AlbumId
+  JOIN Artist ON Artist.ArtistId = Album.ArtistId
+  WHERE Genre.Name = 'Blues'
+  GROUP BY 1
+  ORDER BY 2 DESC
